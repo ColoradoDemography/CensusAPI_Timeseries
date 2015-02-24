@@ -1,0 +1,793 @@
+<html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="c3/c3.css">
+  </head>
+  <body>
+    <div id="chart" style="width: 800px; height: 600px;"></div>
+
+      <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <script src="c3/c3.js"></script>
+    
+          
+      <style>
+        
+        .c3-axis-x-label{
+          font-size: 25;
+        }
+        
+         #removeboxlabel{
+          position: absolute;
+          top: 30px;
+          left: 850px;
+           }       
+        #removebox{
+          position: absolute;
+          top: 50px;
+          left: 850px;
+          width: 160px;
+           }
+        
+        #chartbylabel{
+          position: absolute;
+          top: 30px;
+          left: 1040px;
+          color: grey;
+           }       
+        #chartby{
+          position: absolute;
+          top: 50px;
+          left: 1040px;
+          width: 160px;
+          
+           }
+        
+        
+         #addboxlabel{
+          position: absolute;
+          top: 260px;
+          left: 850px;
+        }       
+        #addbox{
+          position: absolute;
+          top: 280px;
+          left: 850px;
+          width: 160px;
+        }
+         #addplacelabel{
+          position: absolute;
+          top: 260px;
+          left: 1040px;
+        }       
+        #addplace{
+          position: absolute;
+          top: 280px;
+          left: 1040px;
+          width: 160px;
+        }        
+        </style>
+    
+    <label id="removeboxlabel"><b>Current Chart</b></label>
+    <label id="addboxlabel"><b>Add County</b></label>
+    <label id="addplacelabel"><b>Add Place</b></label>
+     <label id="chartbylabel" ><b>Chart By</b></label>
+    
+  <select id="addplace" size="15" ondblclick = "handlerplace(this.value)">
+<option value='10800320|Acres Green CDP'>Acres Green CDP</option>
+<option value='10800620|Aetna Estates CDP'>Aetna Estates CDP</option>
+<option value='10800760|Aguilar town'>Aguilar town</option>
+<option value='10800870|Air Force Academy CDP'>Air Force Academy CDP</option>
+<option value='10800925|Akron town'>Akron town</option>
+<option value='10801090|Alamosa city'>Alamosa city</option>
+<option value='10801145|Alamosa East CDP'>Alamosa East CDP</option>
+<option value='10801420|Allenspark CDP'>Allenspark CDP</option>
+<option value='10801530|Alma town'>Alma town</option>
+<option value='10801640|Alpine CDP'>Alpine CDP</option>
+<option value='10801740|Altona CDP'>Altona CDP</option>
+<option value='10801915|Amherst CDP'>Amherst CDP</option>
+<option value='10802355|Antonito town'>Antonito town</option>
+<option value='10802575|Applewood CDP'>Applewood CDP</option>
+<option value='10802905|Arboles CDP'>Arboles CDP</option>
+<option value='10803015|Aristocrat Ranchettes CDP'>Aristocrat Ranchettes CDP</option>
+<option value='10803235|Arriba town'>Arriba town</option>
+<option value='10803455|Arvada city'>Arvada city</option>
+<option value='10803620|Aspen city'>Aspen city</option>
+<option value='10803730|Aspen Park CDP'>Aspen Park CDP</option>
+<option value='10803840|Atwood CDP'>Atwood CDP</option>
+<option value='10803950|Ault town'>Ault town</option>
+<option value='10804000|Aurora city'>Aurora city</option>
+<option value='10804110|Avon town'>Avon town</option>
+<option value='10804165|Avondale CDP'>Avondale CDP</option>
+<option value='10804620|Bark Ranch CDP'>Bark Ranch CDP</option>
+<option value='10804935|Basalt town'>Basalt town</option>
+<option value='10805120|Battlement Mesa CDP'>Battlement Mesa CDP</option>
+<option value='10805265|Bayfield town'>Bayfield town</option>
+<option value='10806090|Bennett town'>Bennett town</option>
+<option value='10806172|Berkley CDP'>Berkley CDP</option>
+<option value='10806255|Berthoud town'>Berthoud town</option>
+<option value='10806530|Bethune town'>Bethune town</option>
+<option value='10806602|Beulah Valley CDP'>Beulah Valley CDP</option>
+<option value='10806970|Black Forest CDP'>Black Forest CDP</option>
+<option value='10807025|Black Hawk city'>Black Hawk city</option>
+<option value='10807190|Blanca town'>Blanca town</option>
+<option value='10807245|Blende CDP'>Blende CDP</option>
+<option value='10807410|Blue River town'>Blue River town</option>
+<option value='10807420|Blue Sky CDP'>Blue Sky CDP</option>
+<option value='10807571|Bonanza town'>Bonanza town</option>
+<option value='10807580|Bonanza Mountain Estates CDP'>Bonanza Mountain Estates CDP</option>
+<option value='10807795|Boone town'>Boone town</option>
+<option value='10807850|Boulder city'>Boulder city</option>
+<option value='10808070|Bow Mar town'>Bow Mar town</option>
+<option value='10808290|Brandon CDP'>Brandon CDP</option>
+<option value='10808345|Branson town'>Branson town</option>
+<option value='10808400|Breckenridge town'>Breckenridge town</option>
+<option value='10808530|Brick Center CDP'>Brick Center CDP</option>
+<option value='10808675|Brighton city'>Brighton city</option>
+<option value='10809115|Brookside town'>Brookside town</option>
+<option value='10809280|Broomfield city'>Broomfield city</option>
+<option value='10809555|Brush city'>Brush city</option>
+<option value='10810105|Buena Vista town'>Buena Vista town</option>
+<option value='10810600|Burlington city'>Burlington city</option>
+<option value='10810985|Byers CDP'>Byers CDP</option>
+<option value='10811260|Calhan town'>Calhan town</option>
+<option value='10811645|Campo town'>Campo town</option>
+<option value='10811810|Cañon City city'>Cañon City city</option>
+<option value='10811975|Capulin CDP'>Capulin CDP</option>
+<option value='10812045|Carbondale town'>Carbondale town</option>
+<option value='10812325|Cascade-Chipita Park CDP'>Cascade-Chipita Park CDP</option>
+<option value='10812387|Castle Pines CDP'>Castle Pines CDP</option>
+<option value='10812390|Castle Pines North city'>Castle Pines North city</option>
+<option value='10812415|Castle Rock town'>Castle Rock town</option>
+<option value='10812450|Cathedral CDP'>Cathedral CDP</option>
+<option value='10812460|Catherine CDP'>Catherine CDP</option>
+<option value='10812470|Cattle Creek CDP'>Cattle Creek CDP</option>
+<option value='10812635|Cedaredge town'>Cedaredge town</option>
+<option value='10812815|Centennial city'>Centennial city</option>
+<option value='10812855|Center town'>Center town</option>
+<option value='10812910|Central City city'>Central City city</option>
+<option value='10812945|Chacra CDP'>Chacra CDP</option>
+<option value='10813460|Cheraw town'>Cheraw town</option>
+<option value='10813590|Cherry Creek CDP'>Cherry Creek CDP</option>
+<option value='10813845|Cherry Hills Village city'>Cherry Hills Village city</option>
+<option value='10814175|Cheyenne Wells town'>Cheyenne Wells town</option>
+<option value='10814587|Cimarron Hills CDP'>Cimarron Hills CDP</option>
+<option value='10814765|City of Creede town'>City of Creede town</option>
+<option value='10815165|Clifton CDP'>Clifton CDP</option>
+<option value='10815330|Coal Creek town'>Coal Creek town</option>
+<option value='10815302|Coal Creek CDP'>Coal Creek CDP</option>
+<option value='10815440|Coaldale CDP'>Coaldale CDP</option>
+<option value='10815550|Cokedale town'>Cokedale town</option>
+<option value='10815605|Collbran town'>Collbran town</option>
+<option value='10815825|Colona CDP'>Colona CDP</option>
+<option value='10815935|Colorado City CDP'>Colorado City CDP</option>
+<option value='10816000|Colorado Springs city'>Colorado Springs city</option>
+<option value='10816110|Columbine CDP'>Columbine CDP</option>
+<option value='10816385|Columbine Valley town'>Columbine Valley town</option>
+<option value='10816465|Comanche Creek CDP'>Comanche Creek CDP</option>
+<option value='10816495|Commerce City city'>Commerce City city</option>
+<option value='10816715|Conejos CDP'>Conejos CDP</option>
+<option value='10817150|Copper Mountain CDP'>Copper Mountain CDP</option>
+<option value='10817375|Cortez city'>Cortez city</option>
+<option value='10817485|Cotopaxi CDP'>Cotopaxi CDP</option>
+<option value='10817760|Craig city'>Craig city</option>
+<option value='10817925|Crawford town'>Crawford town</option>
+<option value='10818310|Crested Butte town'>Crested Butte town</option>
+<option value='10818420|Crestone town'>Crestone town</option>
+<option value='10818530|Cripple Creek city'>Cripple Creek city</option>
+<option value='10818585|Crisman CDP'>Crisman CDP</option>
+<option value='10818640|Crook town'>Crook town</option>
+<option value='10818750|Crowley town'>Crowley town</option>
+<option value='10819080|Dacono city'>Dacono city</option>
+<option value='10819150|Dakota Ridge CDP'>Dakota Ridge CDP</option>
+<option value='10819355|De Beque town'>De Beque town</option>
+<option value='10819630|Deer Trail town'>Deer Trail town</option>
+<option value='10819795|Del Norte town'>Del Norte town</option>
+<option value='10819850|Delta city'>Delta city</option>
+<option value='10820000|Denver city'>Denver city</option>
+<option value='10820275|Derby CDP'>Derby CDP</option>
+<option value='10820440|Dillon town'>Dillon town</option>
+<option value='10820495|Dinosaur town'>Dinosaur town</option>
+<option value='10820605|Divide CDP'>Divide CDP</option>
+<option value='10820770|Dolores town'>Dolores town</option>
+<option value='10821155|Dotsero CDP'>Dotsero CDP</option>
+<option value='10821265|Dove Creek town'>Dove Creek town</option>
+<option value='10821330|Dove Valley CDP'>Dove Valley CDP</option>
+<option value='10821390|Downieville-Lawson-Dumont CDP'>Downieville-Lawson-Dumont CDP</option>
+<option value='10822035|Durango city'>Durango city</option>
+<option value='10822145|Eads town'>Eads town</option>
+<option value='10822200|Eagle town'>Eagle town</option>
+<option value='10822575|East Pleasant View CDP'>East Pleasant View CDP</option>
+<option value='10822860|Eaton town'>Eaton town</option>
+<option value='10823025|Eckley town'>Eckley town</option>
+<option value='10823135|Edgewater city'>Edgewater city</option>
+<option value='10823300|Edwards CDP'>Edwards CDP</option>
+<option value='10823795|El Jebel CDP'>El Jebel CDP</option>
+<option value='10824290|El Moro CDP'>El Moro CDP</option>
+<option value='10823520|Elbert CDP'>Elbert CDP</option>
+<option value='10823575|Eldora CDP'>Eldora CDP</option>
+<option value='10823630|Eldorado Springs CDP'>Eldorado Springs CDP</option>
+<option value='10823740|Elizabeth town'>Elizabeth town</option>
+<option value='10824235|Ellicott CDP'>Ellicott CDP</option>
+<option value='10824620|Empire town'>Empire town</option>
+<option value='10824785|Englewood city'>Englewood city</option>
+<option value='10824950|Erie town'>Erie town</option>
+<option value='10825115|Estes Park town'>Estes Park town</option>
+<option value='10825280|Evans city'>Evans city</option>
+<option value='10825390|Evergreen CDP'>Evergreen CDP</option>
+<option value='10825550|Fairmount CDP'>Fairmount CDP</option>
+<option value='10825610|Fairplay town'>Fairplay town</option>
+<option value='10826270|Federal Heights city'>Federal Heights city</option>
+<option value='10826600|Firestone town'>Firestone town</option>
+<option value='10826765|Flagler town'>Flagler town</option>
+<option value='10826875|Fleming town'>Fleming town</option>
+<option value='10827040|Florence city'>Florence city</option>
+<option value='10827095|Florissant CDP'>Florissant CDP</option>
+<option value='10827175|Floyd Hill CDP'>Floyd Hill CDP</option>
+<option value='10827370|Fort Carson CDP'>Fort Carson CDP</option>
+<option value='10827425|Fort Collins city'>Fort Collins city</option>
+<option value='10827535|Fort Garland CDP'>Fort Garland CDP</option>
+<option value='10827700|Fort Lupton city'>Fort Lupton city</option>
+<option value='10827810|Fort Morgan city'>Fort Morgan city</option>
+<option value='10827865|Fountain city'>Fountain city</option>
+<option value='10827975|Fowler town'>Fowler town</option>
+<option value='10828105|Foxfield town'>Foxfield town</option>
+<option value='10828250|Franktown CDP'>Franktown CDP</option>
+<option value='10828305|Fraser town'>Fraser town</option>
+<option value='10828360|Frederick town'>Frederick town</option>
+<option value='10828690|Frisco town'>Frisco town</option>
+<option value='10828745|Fruita city'>Fruita city</option>
+<option value='10828800|Fruitvale CDP'>Fruitvale CDP</option>
+<option value='10828830|Fulford CDP'>Fulford CDP</option>
+<option value='10829185|Garden City town'>Garden City town</option>
+<option value='10829295|Garfield CDP'>Garfield CDP</option>
+<option value='10829625|Genesee CDP'>Genesee CDP</option>
+<option value='10829680|Genoa town'>Genoa town</option>
+<option value='10829735|Georgetown town'>Georgetown town</option>
+<option value='10829845|Gerrard CDP'>Gerrard CDP</option>
+<option value='10829955|Gilcrest town'>Gilcrest town</option>
+<option value='10830340|Glendale city'>Glendale city</option>
+<option value='10830350|Glendale CDP'>Glendale CDP</option>
+<option value='10830420|Gleneagle CDP'>Gleneagle CDP</option>
+<option value='10830780|Glenwood Springs city'>Glenwood Springs city</option>
+<option value='10830945|Gold Hill CDP'>Gold Hill CDP</option>
+<option value='10830835|Golden city'>Golden city</option>
+<option value='10830890|Goldfield CDP'>Goldfield CDP</option>
+<option value='10831550|Granada town'>Granada town</option>
+<option value='10831605|Granby town'>Granby town</option>
+<option value='10831660|Grand Junction city'>Grand Junction city</option>
+<option value='10831715|Grand Lake town'>Grand Lake town</option>
+<option value='10831935|Grand View Estates CDP'>Grand View Estates CDP</option>
+<option value='10832155|Greeley city'>Greeley city</option>
+<option value='10832650|Green Mountain Falls town'>Green Mountain Falls town</option>
+<option value='10833035|Greenwood Village city'>Greenwood Village city</option>
+<option value='10833310|Grover town'>Grover town</option>
+<option value='10833420|Guffey CDP'>Guffey CDP</option>
+<option value='10833502|Gunbarrel CDP'>Gunbarrel CDP</option>
+<option value='10833640|Gunnison city'>Gunnison city</option>
+<option value='10833695|Gypsum town'>Gypsum town</option>
+<option value='10834520|Hartman town'>Hartman town</option>
+<option value='10834685|Hasty CDP'>Hasty CDP</option>
+<option value='10834740|Haswell town'>Haswell town</option>
+<option value='10834960|Haxtun town'>Haxtun town</option>
+<option value='10835070|Hayden town'>Hayden town</option>
+<option value='10835400|Heeney CDP'>Heeney CDP</option>
+<option value='10835860|Hidden Lake CDP'>Hidden Lake CDP</option>
+<option value='10836410|Highlands Ranch CDP'>Highlands Ranch CDP</option>
+<option value='10836610|Hillrose town'>Hillrose town</option>
+<option value='10836940|Hoehne CDP'>Hoehne CDP</option>
+<option value='10837215|Holly town'>Holly town</option>
+<option value='10837220|Holly Hills CDP'>Holly Hills CDP</option>
+<option value='10837270|Holyoke city'>Holyoke city</option>
+<option value='10837380|Hooper town'>Hooper town</option>
+<option value='10837600|Hot Sulphur Springs town'>Hot Sulphur Springs town</option>
+<option value='10837545|Hotchkiss town'>Hotchkiss town</option>
+<option value='10837655|Howard CDP'>Howard CDP</option>
+<option value='10837820|Hudson town'>Hudson town</option>
+<option value='10837875|Hugo town'>Hugo town</option>
+<option value='10838370|Idaho Springs city'>Idaho Springs city</option>
+<option value='10838425|Idalia CDP'>Idalia CDP</option>
+<option value='10838480|Idledale CDP'>Idledale CDP</option>
+<option value='10838535|Ignacio town'>Ignacio town</option>
+<option value='10838590|Iliff town'>Iliff town</option>
+<option value='10838810|Indian Hills CDP'>Indian Hills CDP</option>
+<option value='10838910|Inverness CDP'>Inverness CDP</option>
+<option value='10839160|Jackson Lake CDP'>Jackson Lake CDP</option>
+<option value='10839195|Jamestown town'>Jamestown town</option>
+<option value='10839250|Jansen CDP'>Jansen CDP</option>
+<option value='10839745|Joes CDP'>Joes CDP</option>
+<option value='10839800|Johnson Village CDP'>Johnson Village CDP</option>
+<option value='10839855|Johnstown town'>Johnstown town</option>
+<option value='10839965|Julesburg town'>Julesburg town</option>
+<option value='10840185|Keenesburg town'>Keenesburg town</option>
+<option value='10840377|Ken Caryl CDP'>Ken Caryl CDP</option>
+<option value='10840515|Kersey town'>Kersey town</option>
+<option value='10840550|Keystone CDP'>Keystone CDP</option>
+<option value='10840570|Kim town'>Kim town</option>
+<option value='10840790|Kiowa town'>Kiowa town</option>
+<option value='10840900|Kirk CDP'>Kirk CDP</option>
+<option value='10841010|Kit Carson town'>Kit Carson town</option>
+<option value='10841065|Kittredge CDP'>Kittredge CDP</option>
+<option value='10841560|Kremmling town'>Kremmling town</option>
+<option value='10842055|La Jara town'>La Jara town</option>
+<option value='10842110|La Junta city'>La Junta city</option>
+<option value='10842165|La Junta Gardens CDP'>La Junta Gardens CDP</option>
+<option value='10843605|La Salle town'>La Salle town</option>
+<option value='10844100|La Veta town'>La Veta town</option>
+<option value='10841835|Lafayette city'>Lafayette city</option>
+<option value='10842000|Laird CDP'>Laird CDP</option>
+<option value='10842330|Lake City town'>Lake City town</option>
+<option value='10842495|Lakeside town'>Lakeside town</option>
+<option value='10843000|Lakewood city'>Lakewood city</option>
+<option value='10843110|Lamar city'>Lamar city</option>
+<option value='10843220|Laporte CDP'>Laporte CDP</option>
+<option value='10843550|Larkspur town'>Larkspur town</option>
+<option value='10843660|Las Animas city'>Las Animas city</option>
+<option value='10844270|Lazy Acres CDP'>Lazy Acres CDP</option>
+<option value='10844320|Leadville city'>Leadville city</option>
+<option value='10844375|Leadville North CDP'>Leadville North CDP</option>
+<option value='10844595|Lewis CDP'>Lewis CDP</option>
+<option value='10844695|Leyner CDP'>Leyner CDP</option>
+<option value='10844980|Limon town'>Limon town</option>
+<option value='10845145|Lincoln Park CDP'>Lincoln Park CDP</option>
+<option value='10845255|Littleton city'>Littleton city</option>
+<option value='10845530|Lochbuie town'>Lochbuie town</option>
+<option value='10845695|Log Lane Village town'>Log Lane Village town</option>
+<option value='10845680|Loghill Village CDP'>Loghill Village CDP</option>
+<option value='10845750|Loma CDP'>Loma CDP</option>
+<option value='10845955|Lone Tree city'>Lone Tree city</option>
+<option value='10845970|Longmont city'>Longmont city</option>
+<option value='10846355|Louisville city'>Louisville city</option>
+<option value='10846410|Louviers CDP'>Louviers CDP</option>
+<option value='10846465|Loveland city'>Loveland city</option>
+<option value='10847015|Lynn CDP'>Lynn CDP</option>
+<option value='10847070|Lyons town'>Lyons town</option>
+<option value='10848060|Manassa town'>Manassa town</option>
+<option value='10848115|Mancos town'>Mancos town</option>
+<option value='10848445|Manitou Springs city'>Manitou Springs city</option>
+<option value='10848500|Manzanola town'>Manzanola town</option>
+<option value='10848555|Marble town'>Marble town</option>
+<option value='10849325|Maybell CDP'>Maybell CDP</option>
+<option value='10849490|Maysville CDP'>Maysville CDP</option>
+<option value='10847345|McCoy CDP'>McCoy CDP</option>
+<option value='10849600|Mead town'>Mead town</option>
+<option value='10849875|Meeker town'>Meeker town</option>
+<option value='10850012|Meridian CDP'>Meridian CDP</option>
+<option value='10850040|Merino town'>Merino town</option>
+<option value='10850380|Midland CDP'>Midland CDP</option>
+<option value='10850480|Milliken town'>Milliken town</option>
+<option value='10850920|Minturn town'>Minturn town</option>
+<option value='10851250|Moffat town'>Moffat town</option>
+<option value='10851635|Monte Vista city'>Monte Vista city</option>
+<option value='10851690|Montezuma town'>Montezuma town</option>
+<option value='10851745|Montrose city'>Montrose city</option>
+<option value='10851800|Monument town'>Monument town</option>
+<option value='10851975|Morgan Heights CDP'>Morgan Heights CDP</option>
+<option value='10852075|Morrison town'>Morrison town</option>
+<option value='10852570|Mount Crested Butte town'>Mount Crested Butte town</option>
+<option value='10852210|Mountain Meadows CDP'>Mountain Meadows CDP</option>
+<option value='10852350|Mountain View town'>Mountain View town</option>
+<option value='10852550|Mountain Village town'>Mountain Village town</option>
+<option value='10852820|Mulford CDP'>Mulford CDP</option>
+<option value='10853120|Naturita town'>Naturita town</option>
+<option value='10853175|Nederland town'>Nederland town</option>
+<option value='10853395|New Castle town'>New Castle town</option>
+<option value='10853780|Niwot CDP'>Niwot CDP</option>
+<option value='10853875|No Name CDP'>No Name CDP</option>
+<option value='10853945|Norrie CDP'>Norrie CDP</option>
+<option value='10854495|North La Junta CDP'>North La Junta CDP</option>
+<option value='10854750|North Washington CDP'>North Washington CDP</option>
+<option value='10854330|Northglenn city'>Northglenn city</option>
+<option value='10854880|Norwood town'>Norwood town</option>
+<option value='10854935|Nucla town'>Nucla town</option>
+<option value='10855045|Nunn town'>Nunn town</option>
+<option value='10855155|Oak Creek town'>Oak Creek town</option>
+<option value='10855540|Olathe town'>Olathe town</option>
+<option value='10855705|Olney Springs town'>Olney Springs town</option>
+<option value='10855870|Ophir town'>Ophir town</option>
+<option value='10855925|Orchard CDP'>Orchard CDP</option>
+<option value='10855980|Orchard City town'>Orchard City town</option>
+<option value='10856035|Orchard Mesa CDP'>Orchard Mesa CDP</option>
+<option value='10856145|Ordway town'>Ordway town</option>
+<option value='10856365|Otis town'>Otis town</option>
+<option value='10856420|Ouray city'>Ouray city</option>
+<option value='10856475|Ovid town'>Ovid town</option>
+<option value='10856695|Padroni CDP'>Padroni CDP</option>
+<option value='10856860|Pagosa Springs town'>Pagosa Springs town</option>
+<option value='10856970|Palisade town'>Palisade town</option>
+<option value='10857025|Palmer Lake town'>Palmer Lake town</option>
+<option value='10857245|Paoli town'>Paoli town</option>
+<option value='10857300|Paonia town'>Paonia town</option>
+<option value='10857400|Parachute town'>Parachute town</option>
+<option value='10857445|Paragon Estates CDP'>Paragon Estates CDP</option>
+<option value='10857630|Parker town'>Parker town</option>
+<option value='10857850|Parshall CDP'>Parshall CDP</option>
+<option value='10858235|Peetz town'>Peetz town</option>
+<option value='10858400|Penrose CDP'>Penrose CDP</option>
+<option value='10858510|Peoria CDP'>Peoria CDP</option>
+<option value='10858592|Perry Park CDP'>Perry Park CDP</option>
+<option value='10858675|Peyton CDP'>Peyton CDP</option>
+<option value='10858758|Phippsburg CDP'>Phippsburg CDP</option>
+<option value='10858960|Piedra CDP'>Piedra CDP</option>
+<option value='10859005|Pierce town'>Pierce town</option>
+<option value='10859240|Pine Brook Hill CDP'>Pine Brook Hill CDP</option>
+<option value='10859830|Pitkin town'>Pitkin town</option>
+<option value='10860160|Platteville town'>Platteville town</option>
+<option value='10860600|Poncha Springs town'>Poncha Springs town</option>
+<option value='10860655|Ponderosa Park CDP'>Ponderosa Park CDP</option>
+<option value='10860765|Portland CDP'>Portland CDP</option>
+<option value='10861315|Pritchett town'>Pritchett town</option>
+<option value='10862000|Pueblo city'>Pueblo city</option>
+<option value='10862220|Pueblo West CDP'>Pueblo West CDP</option>
+<option value='10862660|Ramah town'>Ramah town</option>
+<option value='10862880|Rangely town'>Rangely town</option>
+<option value='10863045|Raymer (New Raymer) town'>Raymer (New Raymer) town</option>
+<option value='10863265|Red Cliff town'>Red Cliff town</option>
+<option value='10863320|Red Feather Lakes CDP'>Red Feather Lakes CDP</option>
+<option value='10863375|Redlands CDP'>Redlands CDP</option>
+<option value='10863650|Redstone CDP'>Redstone CDP</option>
+<option value='10863705|Redvale CDP'>Redvale CDP</option>
+<option value='10864090|Rico town'>Rico town</option>
+<option value='10864200|Ridgway town'>Ridgway town</option>
+<option value='10864255|Rifle city'>Rifle city</option>
+<option value='10864870|Rock Creek Park CDP'>Rock Creek Park CDP</option>
+<option value='10864970|Rockvale town'>Rockvale town</option>
+<option value='10865190|Rocky Ford city'>Rocky Ford city</option>
+<option value='10865685|Rollinsville CDP'>Rollinsville CDP</option>
+<option value='10865740|Romeo town'>Romeo town</option>
+<option value='10866197|Roxborough Park CDP'>Roxborough Park CDP</option>
+<option value='10866895|Rye town'>Rye town</option>
+<option value='10866995|Saddle Ridge CDP'>Saddle Ridge CDP</option>
+<option value='10867005|Saguache town'>Saguache town</option>
+<option value='10867280|Salida city'>Salida city</option>
+<option value='10867445|Salt Creek CDP'>Salt Creek CDP</option>
+<option value='10867500|San Acacio CDP'>San Acacio CDP</option>
+<option value='10868105|San Luis town'>San Luis town</option>
+<option value='10867830|Sanford town'>Sanford town</option>
+<option value='10868655|Sawpit town'>Sawpit town</option>
+<option value='10868847|Security-Widefield CDP'>Security-Widefield CDP</option>
+<option value='10868875|Sedalia CDP'>Sedalia CDP</option>
+<option value='10868930|Sedgwick town'>Sedgwick town</option>
+<option value='10868985|Segundo CDP'>Segundo CDP</option>
+<option value='10869040|Seibert town'>Seibert town</option>
+<option value='10869110|Seven Hills CDP'>Seven Hills CDP</option>
+<option value='10869150|Severance town'>Severance town</option>
+<option value='10869480|Shaw Heights CDP'>Shaw Heights CDP</option>
+<option value='10869645|Sheridan city'>Sheridan city</option>
+<option value='10869700|Sheridan Lake town'>Sheridan Lake town</option>
+<option value='10869810|Sherrelwood CDP'>Sherrelwood CDP</option>
+<option value='10870195|Silt town'>Silt town</option>
+<option value='10870250|Silver Cliff town'>Silver Cliff town</option>
+<option value='10870360|Silver Plume town'>Silver Plume town</option>
+<option value='10870525|Silverthorne town'>Silverthorne town</option>
+<option value='10870580|Silverton town'>Silverton town</option>
+<option value='10870635|Simla town'>Simla town</option>
+<option value='10871625|Smeltertown CDP'>Smeltertown CDP</option>
+<option value='10871755|Snowmass Village town'>Snowmass Village town</option>
+<option value='10871790|Snyder CDP'>Snyder CDP</option>
+<option value='10872395|South Fork town'>South Fork town</option>
+<option value='10872320|Southern Ute CDP'>Southern Ute CDP</option>
+<option value='10873330|Springfield town'>Springfield town</option>
+<option value='10867040|St. Ann Highlands CDP'>St. Ann Highlands CDP</option>
+<option value='10867142|St. Marys CDP'>St. Marys CDP</option>
+<option value='10873715|Starkville town'>Starkville town</option>
+<option value='10873825|Steamboat Springs city'>Steamboat Springs city</option>
+<option value='10873935|Sterling city'>Sterling city</option>
+<option value='10874080|Stonegate CDP'>Stonegate CDP</option>
+<option value='10874275|Stonewall Gap CDP'>Stonewall Gap CDP</option>
+<option value='10874375|Strasburg CDP'>Strasburg CDP</option>
+<option value='10874430|Stratmoor CDP'>Stratmoor CDP</option>
+<option value='10874485|Stratton town'>Stratton town</option>
+<option value='10874815|Sugar City town'>Sugar City town</option>
+<option value='10874980|Sugarloaf CDP'>Sugarloaf CDP</option>
+<option value='10875585|Sunshine CDP'>Sunshine CDP</option>
+<option value='10875640|Superior town'>Superior town</option>
+<option value='10875970|Swink town'>Swink town</option>
+<option value='10876190|Tabernash CDP'>Tabernash CDP</option>
+<option value='10876325|Tall Timber CDP'>Tall Timber CDP</option>
+<option value='10876795|Telluride town'>Telluride town</option>
+<option value='10877235|The Pinery CDP'>The Pinery CDP</option>
+<option value='10877290|Thornton city'>Thornton city</option>
+<option value='10877510|Timnath town'>Timnath town</option>
+<option value='10877757|Todd Creek CDP'>Todd Creek CDP</option>
+<option value='10878280|Towaoc CDP'>Towaoc CDP</option>
+<option value='10878335|Towner CDP'>Towner CDP</option>
+<option value='10878345|Trail Side CDP'>Trail Side CDP</option>
+<option value='10878610|Trinidad city'>Trinidad city</option>
+<option value='10879100|Twin Lakes CDP'>Twin Lakes CDP</option>
+<option value='10879105|Twin Lakes CDP'>Twin Lakes CDP</option>
+<option value='10879270|Two Buttes town'>Two Buttes town</option>
+<option value='10879785|Upper Bear Creek CDP'>Upper Bear Creek CDP</option>
+<option value='10880040|Vail town'>Vail town</option>
+<option value='10880095|Valdez CDP'>Valdez CDP</option>
+<option value='10880370|Valmont CDP'>Valmont CDP</option>
+<option value='10880755|Vernon CDP'>Vernon CDP</option>
+<option value='10880865|Victor city'>Victor city</option>
+<option value='10881030|Vilas town'>Vilas town</option>
+<option value='10881305|Vineland CDP'>Vineland CDP</option>
+<option value='10881690|Vona town'>Vona town</option>
+<option value='10882130|Walden town'>Walden town</option>
+<option value='10882350|Walsenburg city'>Walsenburg city</option>
+<option value='10882460|Walsh town'>Walsh town</option>
+<option value='10882735|Ward town'>Ward town</option>
+<option value='10882905|Watkins CDP'>Watkins CDP</option>
+<option value='10883120|Welby CDP'>Welby CDP</option>
+<option value='10883175|Weldona CDP'>Weldona CDP</option>
+<option value='10883230|Wellington town'>Wellington town</option>
+<option value='10884042|West Pleasant View CDP'>West Pleasant View CDP</option>
+<option value='10883450|Westcliffe town'>Westcliffe town</option>
+<option value='10883500|Westcreek CDP'>Westcreek CDP</option>
+<option value='10883835|Westminster city'>Westminster city</option>
+<option value='10884000|Weston CDP'>Weston CDP</option>
+<option value='10884440|Wheat Ridge city'>Wheat Ridge city</option>
+<option value='10884770|Wiggins town'>Wiggins town</option>
+<option value='10885045|Wiley town'>Wiley town</option>
+<option value='10885155|Williamsburg town'>Williamsburg town</option>
+<option value='10885485|Windsor town'>Windsor town</option>
+<option value='10885705|Winter Park town'>Winter Park town</option>
+<option value='10885760|Wolcott CDP'>Wolcott CDP</option>
+<option value='10886090|Woodland Park city'>Woodland Park city</option>
+<option value='10886117|Woodmoor CDP'>Woodmoor CDP</option>
+<option value='10886200|Woody Creek CDP'>Woody Creek CDP</option>
+<option value='10886310|Wray city'>Wray city</option>
+<option value='10886475|Yampa town'>Yampa town</option>
+<option value='10886750|Yuma city'>Yuma city</option>
+
+  </select>
+
+  <select id="removebox" size="10" ondblclick = "handler(this.value)">
+  <option value="108069|Larimer County">Larimer County</option>
+  </select>
+    
+      <select id="chartby" size="10" ondblclick = "" disabled>
+  <option value="population">Population</option>
+  </select>
+        
+    <select id="addbox" size="15" ondblclick = "unhandler(this.value)">
+  <option value="108001|Adams County">Adams County</option>
+  <option value="108003|Alamosa County">Alamosa County</option>
+  <option value="108005|Arapahoe County">Arapahoe County</option>
+  <option value="108007|Archuleta County">Archuleta County</option>
+  <option value="108009|Baca County">Baca County</option>
+  <option value="108011|Bent County">Bent County</option>
+  <option value="108013|Boulder County">Boulder County</option>
+  <option value="108014|Broomfield County">Broomfield County</option>
+  <option value="108015|Chaffee County">Chaffee County</option>
+  <option value="108017|Cheyenne County">Cheyenne County</option>
+  <option value="108019|Clear Creek County">Clear Creek County</option>
+  <option value="108021|Conejos County">Conejos County</option>   
+  <option value="108023|Costilla County">Costilla County</option>
+  <option value="108025|Crowley County">Crowley County</option>
+  <option value="108027|Custer County">Custer County</option>
+  <option value="108029|Delta County">Delta County</option>
+  <option value="108031|Denver County">Denver County</option>
+  <option value="108033|Dolores County">Dolores County</option>
+  <option value="108035|Douglas County">Douglas County</option>
+  <option value="108037|Eagle County">Eagle County</option>
+  <option value="108039|Elbert County">Elbert County</option>
+  <option value="108041|El Paso County">El Paso County</option>
+  <option value="108043|Fremont County">Fremont County</option>   
+  <option value="108045|Garfield County">Garfield County</option>
+  <option value="108047|Gilpin County">Gilpin County</option>   
+  <option value="108049|Grand County">Grand County</option>
+  <option value="108051|Gunnison County">Gunnison County</option>
+  <option value="108053|Hinsdale County">Hinsdale County</option>
+  <option value="108055|Huerfano County">Huerfano County</option>
+  <option value="108057|Jackson County">Jackson County</option>
+  <option value="108059|Jefferson County">Jefferson County</option>
+  <option value="108061|Kiowa County">Kiowa County</option>
+  <option value="108063|Kit Carson County">Kit Carson County</option>
+  <option value="108065|Lake County">Lake County</option>
+  <option value="108067|La Plata County">La Plata County</option>
+  <option value="108071|Las Animas County">Las Animas County</option>
+  <option value="108073|Lincoln County">Lincoln County</option>
+  <option value="108075|Logan County">Logan County</option>
+  <option value="108077|Mesa County">Mesa County</option>
+  <option value="108079|Mineral County">Mineral County</option>
+  <option value="108081|Moffat County">Moffat County</option>
+  <option value="108083|Montezuma County">Montezuma County</option>
+  <option value="108085|Montrose County">Montrose County</option>   
+  <option value="108087|Morgan County">Morgan County</option>
+  <option value="108089|Otero County">Otero County</option>   
+  <option value="108091|Ouray County">Ouray County</option>
+  <option value="108093|Park County">Park County</option>
+  <option value="108095|Phillips County">Phillips County</option>
+  <option value="108097|Pitkin County">Pitkin County</option>
+  <option value="108099|Prowers County">Prowers County</option>
+  <option value="108101|Pueblo County">Pueblo County</option>
+  <option value="108103|Rio Blanco County">Rio Blanco County</option>
+  <option value="108105|Rio Grande County">Rio Grande County</option>
+  <option value="108107|Routt County">Routt County</option> 
+  <option value="108109|Saguache County">Saguache County</option>
+  <option value="108111|San Juan County">San Juan County</option>
+  <option value="108113|San Miguel County">San Miguel County</option>   
+  <option value="108115|Sedgwick County">Sedgwick County</option>
+  <option value="108117|Summit County">Summit County</option>   
+  <option value="108119|Teller County">Teller County</option>
+  <option value="108121|Washington County">Washington County</option>
+  <option value="108123|Weld County">Weld County</option>   
+  <option value="108125|Yuma County">Yuma County</option>
+    </select>    
+    
+    <script>
+
+      var chart;
+      
+
+      
+              function handler(tval){
+                if(tval !== ""){
+                  //console.log(tval);
+                var res=tval.split('|');
+                chart.unload({ids: res[1]});
+                  //console.log(res[0].length);
+                  
+                  if(res[0].length==6){
+                    
+                    $("option[value='"+tval+"']").each(function() {
+                    $(this).appendTo('#addbox');
+                    sortlist('addbox');
+                });
+                  }else{
+                    $("option[value='"+tval+"']").each(function() {
+                    $(this).appendTo('#addplace');
+                    sortlist('addplace');                         
+                });
+  
+                    }
+
+                }
+              }
+
+              function unhandler(tval){
+                if(tval !== ""){                
+                var res=tval.split('|');
+                $("option[value='"+tval+"']").each(function() {
+                  $(this).appendTo('#removebox');
+                  sortlist('removebox');                 
+                });
+                
+                $.ajax({
+                  url: "http://54.69.15.55/api/series.php?table=population&geonum="+res[0],
+                  dataType: 'json',
+                  jsonpCallback: 'getJson',
+                  success: ldata
+                  });  
+                  
+                  function ldata(loadd){
+                    var adddata=[];
+                    
+                    for(i=0;i<loadd.data.length;i++){
+                      adddata[i]=[loadd.data[i].geoname,loadd.data[i].pop1980,loadd.data[i].pop1990,loadd.data[i].pop2000,loadd.data[i].pop2010];
+                      }
+                    
+                   chart.load({ columns: adddata });
+                  }
+                }
+              }
+      
+      
+                    function handlerplace(tval){
+                if(tval !== ""){                
+                var res=tval.split('|');
+                $("option[value='"+tval+"']").each(function() {
+                  $(this).appendTo('#removebox');
+                  sortlist('removebox');                 
+                });
+                
+                $.ajax({
+                  url: "http://54.69.15.55/api/series.php?table=population&geonum="+res[0],
+                  dataType: 'json',
+                  jsonpCallback: 'getJson',
+                  success: ldata
+                  });  
+                  
+                  function ldata(loadd){
+                    var adddata=[];
+                    
+                    for(i=0;i<loadd.data.length;i++){
+                      adddata[i]=[loadd.data[i].geoname,loadd.data[i].pop1980,loadd.data[i].pop1990,loadd.data[i].pop2000,loadd.data[i].pop2010];
+                      }
+                    
+                   chart.load({ columns: adddata });
+                  }
+                }
+              }
+      
+      function sortlist(elem){
+
+ var cl = document.getElementById(elem);
+ var clTexts = new Array();
+
+ for(i = 0; i < cl.length; i++){
+    clTexts[i] =
+        cl.options[i].text.toUpperCase() + "," +
+        cl.options[i].text + "," +
+        cl.options[i].value + "," +
+        cl.options[i].selected;
+ }
+
+ clTexts.sort();
+
+ for(i = 0; i < cl.length; i++){
+    var parts = clTexts[i].split(',');
+
+    cl.options[i].text = parts[1];
+    cl.options[i].value = parts[2];
+    if(parts[3] == "true"){
+        cl.options[i].selected = true;
+    }else{
+       cl.options[i].selected = false;
+    }
+ }
+}
+      
+      
+      
+      $( document ).ready(function() {
+
+
+      
+      var jsondata=[];
+      
+      $.ajax({
+          url: "http://54.69.15.55/api/series.php?table=population&geonum=108069",
+          dataType: 'json',
+          jsonpCallback: 'getJson',
+          success: getJson
+      });  
+      
+      //,10862000,10845255 : Pueblo, Littleton
+      //155079,106073,131,108031,111,106075,102
+      
+    function getJson(jdata) {  //after successfull ajax call, data is sent here
+      
+      for(i=0;i<jdata.data.length;i++){
+        jsondata[i]=[jdata.data[i].geoname,jdata.data[i].pop1980,jdata.data[i].pop1990,jdata.data[i].pop2000,jdata.data[i].pop2010];
+      }
+
+      //console.log(jdata.data);
+      chart = c3.generate({
+        padding:{
+          bottom: 60
+        },
+        data: {
+          columns: jsondata,
+          onclick: function (d, element) { /*console.log("onclick", d, element);*/ },
+          onmouseover: function (d) { /*console.log("onmouseover", d);*/ },
+          onmouseout: function (d) { /*console.log("onmouseout", d);*/ },
+        },
+        axis: {
+          x: {
+            type: 'category',
+            padding: {left:-0.4, right:-0.4},
+            categories:['1980','1990','2000','2010'],
+            label: {
+                text: 'Population By Decade',
+                position: 'outer-center'
+            },
+            tick: {
+              centered: true
+            }
+          },
+          y:{
+            min: 0,
+            padding: {top:50, bottom:0},
+            tick:{
+              format: d3.format(",")
+              }
+            }
+          }
+      });
+      
+    }   
+
+        
+        });
+        
+
+
+
+    </script>
+
+  </body>
+</html>
