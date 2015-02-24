@@ -647,7 +647,7 @@
                 });
                 
                 $.ajax({
-                  url: "http://54.69.15.55/api/series.php?table=population&geonum="+res[0],
+                  url: "series.php?table=population&geonum="+res[0],
                   dataType: 'json',
                   jsonpCallback: 'getJson',
                   success: ldata
@@ -675,7 +675,7 @@
                 });
                 
                 $.ajax({
-                  url: "http://54.69.15.55/api/series.php?table=population&geonum="+res[0],
+                  url: "series.php?table=population&geonum="+res[0],
                   dataType: 'json',
                   jsonpCallback: 'getJson',
                   success: ldata
@@ -730,7 +730,7 @@
       var jsondata=[];
       
       $.ajax({
-          url: "http://54.69.15.55/api/series.php?table=population&geonum=108069",
+          url: "series.php?table=population&geonum=108069",
           dataType: 'json',
           jsonpCallback: 'getJson',
           success: getJson

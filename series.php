@@ -13,7 +13,7 @@ if (isset($_GET['geoid'])){$geoid = $_GET['geoid'];}
 if (isset($_GET['type'])){$type = $_GET['type'];}else{$type='json';}
 
 
-require 'connect.php';
+require '../CensusAPI/connect.php';
 //file with connection information
 //setup like:
 //$server="server";
