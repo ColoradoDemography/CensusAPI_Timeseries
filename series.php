@@ -1,31 +1,24 @@
 <?php
 
 header("Access-Control-Allow-Origin: *");
+
+
 //input fields
-//$table
-//$geoid
-//$geonum
 if (isset($_GET['table'])){$table = $_GET['table'];}   //custom time series table
-
 if (isset($_GET['geonum'])){$geonum = $_GET['geonum'];} //comma delimited list
-if (isset($_GET['geoid'])){$geoid = $_GET['geoid'];}
 
-if (isset($_GET['type'])){$type = $_GET['type'];}else{$type='json';}
-
+$type='json';
 
 require '../CensusAPI/connect.php';
-//file with connection information
-//setup like:
-//$server="server";
-//$user="username";
-//$password="password";
+
 
 
 //load metadata file with all information you will need to query each specific database
-$str = file_get_contents('timeseriesmeta.js');
+$str = file_get_contents('js/timeseriesmeta.js');
 
 $json = json_decode($str, true); // decode the JSON into an associative array
 
+//echo json_encode($json);
 
 //metadata variables
 $description=''; //table description
@@ -86,40 +79,18 @@ foreach($json['data'] as $obj){
 //elaborate
 $wherestatement='';
 
-//CASE 1:  you have a geonum
-//essentially you don't care about anything else.  just get the data for that/those geonum(s)
-if (isset($geonum)){
 
-    //break the comma delimited records from geonum into an array  
-  $geonumarray=explode(",", $geonum);
+//break the comma delimited records from geonum into an array  
+$geonumarray=explode(",", $geonum);
   
 //iterate through all geonum's
 foreach ($geonumarray as $geonumlist){
-  
-      $wherestatement=$wherestatement." geonum=".$geonumlist." or";
+$wherestatement=$wherestatement." geonum=".$geonumlist." or";
 }
   
-  //trim last trailing 'or'
-  $wherestatement=substr($wherestatement,0,-2);
+//trim last trailing 'or'
+$wherestatement=substr($wherestatement,0,-2);
   
-//END CASE 1
-}elseif (isset($geoid)) {
-//CASE 2:  you have a geoid
-  
-
-      //break the comma delimited records from geonum into an array  
-  $geoidarray=explode(",", $geoid);
-  
-//iterate through all geoids, simply put a '1' in front and treat them like geonums
-foreach ($geoidarray as $geoidlist){
-      $wherestatement=$wherestatement." geonum=1".$geoidlist." or";
-}
-  
-  //trim last trailing 'or'
-  $wherestatement=substr($wherestatement,0,-2);
- 
-//END CASE 2  
-}
 
 
 
@@ -130,6 +101,15 @@ $sql2000='SELECT '.$fields2000.'geonum, geoname FROM search.'.$c2000.' natural j
 $sql2010='SELECT '.$fields2010.'geonum, geoname FROM search.'.$c2010.' natural join '.$c2010.'.'.$table.' WHERE '.$wherestatement.';';
 $sqlacs0812='SELECT '.$fieldsacs0812.'geonum, geoname FROM search.'.$acs0812.' natural join '.$acs0812.'.'.$table.' WHERE '.$wherestatement.';';
 $sqlacs0913='SELECT '.$fieldsacs0913.'geonum, geoname FROM search.'.$acs0913.' natural join '.$acs0913.'.'.$table.' WHERE '.$wherestatement.';';
+
+
+//chech sql statements
+//echo $sql1980;
+//echo $sql1990;
+//echo $sql2000;
+//echo $sql2010;
+//echo $sqlacs0812;
+//echo $sqlacs0913;
 
 
 //turn field lists into arrays
@@ -187,6 +167,7 @@ if (!$c1980result) {
   //add current array (record) to results array
   array_push($c1980fullarray, $c1980arr);
 
+    //echo json_encode($c1980fullarray);
   }
   
   
@@ -626,89 +607,69 @@ usort($acs0812fullarray, "cmp");
 usort($acs0913fullarray, "cmp");
 
 
-$topcount=0;
-$firstactive=0;
-$lastactive=0;
-//count elements in each array - need to make sure all the counts are the same
-if($c1980<>'none' and count($c1980fullarray)>$topcount){$topcount = count($c1980fullarray);}
-if($c1990<>'none' and count($c1990fullarray)>$topcount){$topcount = count($c1990fullarray);}
-if($c2000<>'none' and count($c2000fullarray)>$topcount){$topcount = count($c2000fullarray);}
-if($c2010<>'none' and count($c2010fullarray)>$topcount){$topcount = count($c2010fullarray);}
-if($acs0812<>'none' and count($acs0812fullarray)>$topcount){$topcount = count($acs0812fullarray);}
-if($acs0913<>'none' and count($acs0913fullarray)>$topcount){$topcount = count($acs0913fullarray);}
+$fields1980=trim($fields1980);
+$fields1990=trim($fields1990);
+$fields2000=trim($fields2000);
+$fields2010=trim($fields2010);
+$fieldsacs0812=trim($fieldsacs0812);
+$fieldsacs0913=trim($fieldsacs0913);
 
+$fields1980 = str_replace(",", "", $fields1980);
+$fields1990 = str_replace(",", "", $fields1990);
+$fields2000 = str_replace(",", "", $fields2000);
+$fields2010 = str_replace(",", "", $fields2010);
+$fieldsacs0812 = str_replace(",", "", $fieldsacs0812);
+$fieldsacs0913 = str_replace(",", "", $fieldsacs0913);
 
-if(!(empty($acs0913fullarray)) && $acs0913<>'none'){$firstactive=6;}
-if(!(empty($acs0812fullarray)) && $acs0812<>'none'){$firstactive=5;}
-if(!(empty($c2010fullarray)) && $c2010<>'none'){$firstactive=4;}
-if(!(empty($c2000fullarray)) && $c2000<>'none'){$firstactive=3;}
-if(!(empty($c1990fullarray)) && $c1990<>'none'){$firstactive=2;}
-if(!(empty($c1980fullarray)) && $c1980<>'none'){$firstactive=1;}
-
-
-if(!(empty($c1980fullarray)) && $c1980<>'none'){$lastactive=1;}
-if(!(empty($c1990fullarray)) && $c1990<>'none'){$lastactive=2;}
-if(!(empty($c2000fullarray)) && $c2000<>'none'){$lastactive=3;}
-if(!(empty($c2010fullarray)) && $c2010<>'none'){$lastactive=4;}
-if(!(empty($acs0812fullarray)) && $acs0812<>'none'){$lastactive=5;}
-if(!(empty($acs0913fullarray)) && $acs0913<>'none'){$lastactive=6;}
-
-
+//echo $fields1980;
+//echo $fields1990;
+//echo $fields2000;
+//echo $fields2010;
+//echo $fieldsacs0812;
+//echo $fieldsacs0913;
 
 $arrFinal=[];
-//find first active array
-if($firstactive==1){$arrFinal=$c1980fullarray;}
-if($firstactive==2){$arrFinal=$c1990fullarray;}
-if($firstactive==3){$arrFinal=$c2000fullarray;}
-if($firstactive==4){$arrFinal=$c2010fullarray;}
-if($firstactive==5){$arrFinal=$acs0812fullarray;}
-if($firstactive==6){$arrFinal=$acs0913fullarray;}
+$last='';  //grab geoname and geonum from last census year with valid data
 
-//echo $firstactive.'|'.$lastactive;
-
-
-//iterate through final data array, if missing attributes, fill them in with null values
-foreach($c1980fullarray as $rr){
-  
-  foreach($ttlfields as $f){
-    
-    //echo $rr[$f];
-    
-  }
-  
+if($c1980fullarray<>[]){
+  $evalarray=$evalarray.'$fields1980=>$c1980fullarray[0][$fields1980], ';
+  $last='$arr = array(  "geoname"=>$c1980fullarray[0]["geoname"], "geonum"=>$c1980fullarray[0]["geonum"], ';
 }
 
-if($firstactive<3 and $lastactive>1){
-  for($i=0; $i<$topcount; $i++){
-    $arrFinal[$i] = array_merge($arrFinal[$i], $c1990fullarray[$i]);
-    }
-  }
+if($c1990fullarray<>[]){
+  $evalarray=$evalarray.'$fields1990=>$c1990fullarray[0][$fields1990], ';
+  $last='$arr = array(  "geoname"=>$c1990fullarray[0]["geoname"], "geonum"=>$c1990fullarray[0]["geonum"], ';  
+}
 
-if($firstactive<4 and $lastactive>2){
-  for($i=0; $i<$topcount; $i++){
-    $arrFinal[$i] = array_merge($arrFinal[$i], $c2000fullarray[$i]);
-    }
-  }
+if($c2000fullarray<>[]){
+  $evalarray=$evalarray.'$fields2000=>$c2000fullarray[0][$fields2000], ';
+  $last='$arr = array(  "geoname"=>$c2000fullarray[0]["geoname"], "geonum"=>$c2000fullarray[0]["geonum"], ';  
+}
 
-if($firstactive<5 and $lastactive>3){
-  for($i=0; $i<$topcount; $i++){
-    $arrFinal[$i] = array_merge($arrFinal[$i], $c2010fullarray[$i]);
-    }
-  }
+if($c2010fullarray<>[]){
+  $evalarray=$evalarray.'$fields2010=>$c2010fullarray[0][$fields2010], ';
+  $last='$arr = array(  "geoname"=>$c2010fullarray[0]["geoname"], "geonum"=>$c2010fullarray[0]["geonum"], ';  
+}
 
-if($firstactive<6 and $lastactive>4){
-  for($i=0; $i<$topcount; $i++){
-    $arrFinal[$i] = array_merge($arrFinal[$i], $acs0812fullarray[$i]);
-    }
-  }
+if($acs0812fullarray<>[]){
+  $evalarray=$evalarray.'$fieldsacs0812=>$acs0812fullarray[0][$fieldsacs0812], ';
+  $last='$arr = array(  "geoname"=>$acs0812fullarray[0]["geoname"], "geonum"=>$acs0812fullarray[0]["geonum"], ';  
+}
 
-if($firstactive<7 and $lastactive>5){
-  for($i=0; $i<$topcount; $i++){
-    $arrFinal[$i] = array_merge($arrFinal[$i], $acs0913fullarray[$i]);
-    }
-  }
+if($acs0913fullarray<>[]){
+  $evalarray=$evalarray.'$fieldsacs0913=>$acs0913fullarray[0][$fieldsacs0913], ';
+  $last='$arr = array(  "geoname"=>$acs0913fullarray[0]["geoname"], "geonum"=>$acs0913fullarray[0]["geonum"], ';  
+}
 
 
+$evalarray = substr($evalarray, 0, -2);
+$evalarray=$evalarray.');';
+//echo ($last.$evalarray);
+
+eval(($last.$evalarray));
+
+
+array_push($arrFinal, $arr);
 
   //add geonum to front of fields row array
   array_unshift($ttlfields, "geonum");        
@@ -721,26 +682,14 @@ if($firstactive<7 and $lastactive>5){
 
 
 
-
-    if($type=='csv'){
-    header("Content-Type: text/csv");
-    header("Content-Disposition: attachment; filename=file.csv");
-    // Disable caching
-    header("Cache-Control: no-cache, no-store, must-revalidate"); // HTTP 1.1
-    header("Pragma: no-cache"); // HTTP 1.0
-    header("Expires: 0"); // Proxies
-            
-  $csv_data = outputCSV($arrFinal,$ttlfields,$metacsv);
-            
-  }else{
       
       header('Content-Type: application/json');
       
         //header, meta combined with data
-  $withmeta=array('title'=>$description, 'fields'=>$ttlfields, 'meta' => $metacsv, 'data'=>$arrFinal, 'error'=> $errorarray);
+  $withmeta=array('title'=>$description, 'fields'=>$ttlfields, 'meta' => $metacsv, 'data'=> $arrFinal, 'error'=> $errorarray);
       
       echo json_encode($withmeta);
-  }
+
   
 
 
@@ -751,15 +700,6 @@ function cmp($a, $b)
 }
 
 
-//write csv
-function outputCSV($data, $header, $meta) {
-    $output = fopen("php://output", "w");
-    array_unshift($data, $meta);
-  array_unshift($data, $header);
-    foreach ($data as $row) {
-        fputcsv($output, $row); // here you can change delimiter/enclosure
-    }
-    fclose($output);
-}
+
 
 ?>

@@ -1,6 +1,7 @@
 <html>
   <head>
     <link rel="stylesheet" type="text/css" href="c3/c3.css">
+    <link rel="stylesheet" type="text/css" href="css/app.css">
   </head>
   <body>
     <div id="chart" style="width: 800px; height: 600px;"></div>
@@ -8,71 +9,15 @@
       <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
     <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
     <script src="c3/c3.js"></script>
-    
-          
-      <style>
-        
-        .c3-axis-x-label{
-          font-size: 25;
-        }
-        
-         #removeboxlabel{
-          position: absolute;
-          top: 30px;
-          left: 850px;
-           }       
-        #removebox{
-          position: absolute;
-          top: 50px;
-          left: 850px;
-          width: 160px;
-           }
-        
-        #chartbylabel{
-          position: absolute;
-          top: 30px;
-          left: 1040px;
-          color: grey;
-           }       
-        #chartby{
-          position: absolute;
-          top: 50px;
-          left: 1040px;
-          width: 160px;
-          
-           }
-        
-        
-         #addboxlabel{
-          position: absolute;
-          top: 260px;
-          left: 850px;
-        }       
-        #addbox{
-          position: absolute;
-          top: 280px;
-          left: 850px;
-          width: 160px;
-        }
-         #addplacelabel{
-          position: absolute;
-          top: 260px;
-          left: 1040px;
-        }       
-        #addplace{
-          position: absolute;
-          top: 280px;
-          left: 1040px;
-          width: 160px;
-        }        
-        </style>
+
+
     
     <label id="removeboxlabel"><b>Current Chart</b></label>
     <label id="addboxlabel"><b>Add County</b></label>
     <label id="addplacelabel"><b>Add Place</b></label>
      <label id="chartbylabel" ><b>Chart By</b></label>
     
-  <select id="addplace" size="15" ondblclick = "handlerplace(this.value)">
+  <select id="addplace" size="15" ondblclick = "handle_geo_add(this.value)">
 <option value='10800320|Acres Green CDP'>Acres Green CDP</option>
 <option value='10800620|Aetna Estates CDP'>Aetna Estates CDP</option>
 <option value='10800760|Aguilar town'>Aguilar town</option>
@@ -534,15 +479,15 @@
 
   </select>
 
-  <select id="removebox" size="10" ondblclick = "handler(this.value)">
-  <option value="108069|Larimer County">Larimer County</option>
+  <select id="removebox" size="10" ondblclick = "unhandle(this.value)">
   </select>
     
-      <select id="chartby" size="10" ondblclick = "" disabled>
-  <option value="population">Population</option>
+      <select id="chartby" size="10" onchange = "changechart(this.value)" >
+  <option value="population" selected>Population</option>
+  <option value="mhi">Median Household Income</option>        
   </select>
         
-    <select id="addbox" size="15" ondblclick = "unhandler(this.value)">
+    <select id="addbox" size="15" ondblclick = "handle_geo_add(this.value)">
   <option value="108001|Adams County">Adams County</option>
   <option value="108003|Alamosa County">Alamosa County</option>
   <option value="108005|Arapahoe County">Arapahoe County</option>
@@ -578,6 +523,7 @@
   <option value="108063|Kit Carson County">Kit Carson County</option>
   <option value="108065|Lake County">Lake County</option>
   <option value="108067|La Plata County">La Plata County</option>
+  <option value="108069|Larimer County">Larimer County</option>      
   <option value="108071|Las Animas County">Las Animas County</option>
   <option value="108073|Lincoln County">Lincoln County</option>
   <option value="108075|Logan County">Logan County</option>
@@ -607,187 +553,10 @@
   <option value="108123|Weld County">Weld County</option>   
   <option value="108125|Yuma County">Yuma County</option>
     </select>    
-    
-    <script>
 
-      var chart;
-      
-
-      
-              function handler(tval){
-                if(tval !== ""){
-                  //console.log(tval);
-                var res=tval.split('|');
-                chart.unload({ids: res[1]});
-                  //console.log(res[0].length);
-                  
-                  if(res[0].length==6){
-                    
-                    $("option[value='"+tval+"']").each(function() {
-                    $(this).appendTo('#addbox');
-                    sortlist('addbox');
-                });
-                  }else{
-                    $("option[value='"+tval+"']").each(function() {
-                    $(this).appendTo('#addplace');
-                    sortlist('addplace');                         
-                });
   
-                    }
-
-                }
-              }
-
-              function unhandler(tval){
-                if(tval !== ""){                
-                var res=tval.split('|');
-                $("option[value='"+tval+"']").each(function() {
-                  $(this).appendTo('#removebox');
-                  sortlist('removebox');                 
-                });
-                
-                $.ajax({
-                  url: "series.php?table=population&geonum="+res[0],
-                  dataType: 'json',
-                  jsonpCallback: 'getJson',
-                  success: ldata
-                  });  
-                  
-                  function ldata(loadd){
-                    var adddata=[];
-                    
-                    for(i=0;i<loadd.data.length;i++){
-                      adddata[i]=[loadd.data[i].geoname,loadd.data[i].pop1980,loadd.data[i].pop1990,loadd.data[i].pop2000,loadd.data[i].pop2010];
-                      }
-                    
-                   chart.load({ columns: adddata });
-                  }
-                }
-              }
-      
-      
-                    function handlerplace(tval){
-                if(tval !== ""){                
-                var res=tval.split('|');
-                $("option[value='"+tval+"']").each(function() {
-                  $(this).appendTo('#removebox');
-                  sortlist('removebox');                 
-                });
-                
-                $.ajax({
-                  url: "series.php?table=population&geonum="+res[0],
-                  dataType: 'json',
-                  jsonpCallback: 'getJson',
-                  success: ldata
-                  });  
-                  
-                  function ldata(loadd){
-                    var adddata=[];
-                    
-                    for(i=0;i<loadd.data.length;i++){
-                      adddata[i]=[loadd.data[i].geoname,loadd.data[i].pop1980,loadd.data[i].pop1990,loadd.data[i].pop2000,loadd.data[i].pop2010];
-                      }
-                    
-                   chart.load({ columns: adddata });
-                  }
-                }
-              }
-      
-      function sortlist(elem){
-
- var cl = document.getElementById(elem);
- var clTexts = new Array();
-
- for(i = 0; i < cl.length; i++){
-    clTexts[i] =
-        cl.options[i].text.toUpperCase() + "," +
-        cl.options[i].text + "," +
-        cl.options[i].value + "," +
-        cl.options[i].selected;
- }
-
- clTexts.sort();
-
- for(i = 0; i < cl.length; i++){
-    var parts = clTexts[i].split(',');
-
-    cl.options[i].text = parts[1];
-    cl.options[i].value = parts[2];
-    if(parts[3] == "true"){
-        cl.options[i].selected = true;
-    }else{
-       cl.options[i].selected = false;
-    }
- }
-}
-      
-      
-      
-      $( document ).ready(function() {
-
-
-      
-      var jsondata=[];
-      
-      $.ajax({
-          url: "series.php?table=population&geonum=108069",
-          dataType: 'json',
-          jsonpCallback: 'getJson',
-          success: getJson
-      });  
-      
-      //,10862000,10845255 : Pueblo, Littleton
-      //155079,106073,131,108031,111,106075,102
-      
-    function getJson(jdata) {  //after successfull ajax call, data is sent here
-      
-      for(i=0;i<jdata.data.length;i++){
-        jsondata[i]=[jdata.data[i].geoname,jdata.data[i].pop1980,jdata.data[i].pop1990,jdata.data[i].pop2000,jdata.data[i].pop2010];
-      }
-
-      //console.log(jdata.data);
-      chart = c3.generate({
-        padding:{
-          bottom: 60
-        },
-        data: {
-          columns: jsondata,
-          onclick: function (d, element) { /*console.log("onclick", d, element);*/ },
-          onmouseover: function (d) { /*console.log("onmouseover", d);*/ },
-          onmouseout: function (d) { /*console.log("onmouseout", d);*/ },
-        },
-        axis: {
-          x: {
-            type: 'category',
-            padding: {left:-0.4, right:-0.4},
-            categories:['1980','1990','2000','2010'],
-            label: {
-                text: 'Population By Decade',
-                position: 'outer-center'
-            },
-            tick: {
-              centered: true
-            }
-          },
-          y:{
-            min: 0,
-            padding: {top:50, bottom:0},
-            tick:{
-              format: d3.format(",")
-              }
-            }
-          }
-      });
-      
-    }   
-
-        
-        });
-        
-
-
-
-    </script>
+    <script src="js/app.js" charset="utf-8"></script>
+    
 
   </body>
 </html>

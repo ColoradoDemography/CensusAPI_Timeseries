@@ -1,0 +1,54 @@
+        
+        .c3-axis-x-label{
+          font-size: 25;
+        }
+        
+         #removeboxlabel{
+          position: absolute;
+          top: 30px;
+          left: 850px;
+           }       
+        #removebox{
+          position: absolute;
+          top: 50px;
+          left: 850px;
+          width: 160px;
+           }
+        
+        #chartbylabel{
+          position: absolute;
+          top: 30px;
+          left: 1040px;
+
+           }       
+        #chartby{
+          position: absolute;
+          top: 50px;
+          left: 1040px;
+          width: 160px;
+          
+           }
+        
+        
+         #addboxlabel{
+          position: absolute;
+          top: 260px;
+          left: 850px;
+        }       
+        #addbox{
+          position: absolute;
+          top: 280px;
+          left: 850px;
+          width: 160px;
+        }
+         #addplacelabel{
+          position: absolute;
+          top: 260px;
+          left: 1040px;
+        }       
+        #addplace{
+          position: absolute;
+          top: 280px;
+          left: 1040px;
+          width: 160px;
+        }    
