@@ -2,7 +2,7 @@ var chart;
 var table = "population";
 var timeseriesmeta = {};
 var jsondata = [];
-
+var added_elements=[];
 
 function chartGenerate() {
 
@@ -62,9 +62,6 @@ function chartGenerate() {
             }
         }
     });
-
-     window.setTimeout(function(){ $('svg').attr('id', 'svgel');
-                                 console.log('did it');},1000);
   
   
     //loop through id's in 'Current Chart' box, add them to chart.
@@ -90,6 +87,7 @@ function chartGenerate() {
 function changechart(update) {
     table = update;
     chart = chart.destroy();
+    added_elements=[]; //these will be rebuilt
     chartGenerate();
 }
 
@@ -99,8 +97,17 @@ function unhandle(tval) {
     if (tval !== "") {
         //console.log(tval);
         var res = tval.split('|');
+        var toremove="";
+      
+      //Use geonum to find correct name of county/place to remove  
+      for(i=0;i<added_elements.length;i=i+1){
+        if(added_elements[i].geonum==res[0]){
+          toremove=added_elements[i].data[0];
+        }
+      }
+      
         chart.unload({
-            ids: res[1]
+            ids: toremove
         });
         //console.log(res[0].length);
 
@@ -143,6 +150,14 @@ function ldata(loadd) {
     chart.load({
         columns: adddata
     });
+
+  //keep track of added places and counties
+  var newobj={};
+  newobj.geonum=loadd.data[0].geonum;
+  newobj.data=adddata[0];
+  added_elements.push(newobj);
+  //console.log(added_elements);
+  
 }
 
 

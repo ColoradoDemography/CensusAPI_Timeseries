@@ -35,7 +35,7 @@
     ]
   },{
   "table": "mhi",
-  "description": "Median Household Income",
+  "description": "CPI Adjusted Median Household Income ($2012)",
   "type": "$,",
   "years": [
     {"c1980": "sf3"},
