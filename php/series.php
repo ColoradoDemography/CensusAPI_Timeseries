@@ -9,12 +9,12 @@ if (isset($_GET['geonum'])){$geonum = $_GET['geonum'];} //comma delimited list
 
 $type='json';
 
-require '../CensusAPI/connect.php';
+require '../../CensusAPI/connect.php';
 
 
 
 //load metadata file with all information you will need to query each specific database
-$str = file_get_contents('js/timeseriesmeta.js');
+$str = file_get_contents('../js/timeseriesmeta.js');
 
 $json = json_decode($str, true); // decode the JSON into an associative array
 

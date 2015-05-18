@@ -73,7 +73,7 @@ function chartGenerate() {
         res = myOpts[i].value.split('|');
 
         $.ajax({
-            url: "series.php?table=" + table + "&geonum=" + res[0],
+            url: "php/series.php?table=" + table + "&geonum=" + res[0],
             dataType: 'json',
             success: ldata
         });
@@ -171,7 +171,7 @@ function handle_geo_add(tval) {
         });
 
         $.ajax({
-            url: "series.php?table=" + table + "&geonum=" + res[0],
+            url: "php/series.php?table=" + table + "&geonum=" + res[0],
             dataType: 'json',
             success: ldata
         });
