@@ -1,3 +1,8 @@
+#dlbutton{
+  position: absolute;
+  top: 620px;
+  left: 100px;
+}        
         
         .c3-axis-x-label{
           font-size: 25;
