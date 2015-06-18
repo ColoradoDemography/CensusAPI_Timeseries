@@ -159,7 +159,7 @@
       {"year": "acs0812", "colname": "medvalacs0812", "cdesc": "ACS0812"}      
     ]
   },{
-  "table": "pct65",
+  "table": "agepct65",
   "description": "Percent Age 65 Plus",
   "type": "%",
   "years": [
@@ -175,6 +175,42 @@
       {"year": "c1990", "colname": "pct65_1990", "cdesc": "1990"},    
       {"year": "c2000", "colname": "pct65_2000", "cdesc": "2000"},
       {"year": "c2010", "colname": "pct65_2010", "cdesc": "2010"}      
+    ]
+  },{
+  "table": "agepct18",
+  "description": "Percent Less than Age 18",
+  "type": "%",
+  "years": [
+    {"c1980": "sf1"},
+    {"c1990": "sf1"},
+    {"c2000": "sf1"},
+    {"c2010": "data"},
+    {"acs0812": "none"},
+    {"acs0913": "none"}  
+    ],
+  "columnmeta": [
+      {"year": "c1980", "colname": "pct18_1980", "cdesc": "1980"},
+      {"year": "c1990", "colname": "pct18_1990", "cdesc": "1990"},    
+      {"year": "c2000", "colname": "pct18_2000", "cdesc": "2000"},
+      {"year": "c2010", "colname": "pct18_2010", "cdesc": "2010"}      
+    ]
+  },{
+  "table": "tenure",
+  "description": "Renter Occupancy Rate",
+  "type": "%",
+  "years": [
+    {"c1980": "sf1"},
+    {"c1990": "sf1"},
+    {"c2000": "sf1"},
+    {"c2010": "data"},
+    {"acs0812": "none"},
+    {"acs0913": "none"}  
+    ],
+  "columnmeta": [
+      {"year": "c1980", "colname": "tenure1980", "cdesc": "1980"},
+      {"year": "c1990", "colname": "tenure1990", "cdesc": "1990"},    
+      {"year": "c2000", "colname": "tenure2000", "cdesc": "2000"},
+      {"year": "c2010", "colname": "tenure2010", "cdesc": "2010"}      
     ]
   }
 
