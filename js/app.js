@@ -28,9 +28,15 @@ $(function() {
        var canvasContext = canvas.getContext('2d');
        var svg = $.trim($('#chart > svg')[0].outerHTML);
        canvasContext.drawSvg(svg, 0, 0);
+
+     
        $(".savePNG").attr("href", canvas.toDataURL("png"))
            .attr("download", function() {
+         
+          changechart(document.getElementById('chartby').value);
+         
                return "_llamacharts.png";
+
            });
 
    };
@@ -98,6 +104,8 @@ $(function() {
 
 function chartGenerate() {
 
+
+  
     var label = {};
     var categories = [];
     var format = "";
@@ -154,7 +162,8 @@ function chartGenerate() {
             }
         }
     });
-  
+
+      d3.select("svg").insert("rect", ":first-child").attr("width", "100%").attr("height", "100%").attr("fill", "white");
   
     //loop through id's in 'Current Chart' box, add them to chart.
     var myOpts = document.getElementById('removebox').options;
